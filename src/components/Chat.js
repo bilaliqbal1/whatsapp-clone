@@ -3,9 +3,20 @@ import { AttachFile, InsertEmoticon, Mic,  MoreVert, Search } from '@material-ui
 import {IconButton} from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import './chat.css'
+import { useParams } from 'react-router';
+import db from '../connection/firebase'
 const Chat = () => {
     const [seed, setSeed] = useState('');
     const [input, setInput] = useState('');
+    const {roomId} = useParams()
+    const [roomName, setRoomName] = useState('')
+
+    useEffect(()=>{
+        if (roomId){
+            db.collection('rooms').doc(roomId).onSnapshot(snapshot =>
+                setRoomName(snapshot.data().name))
+        }
+    },[roomId])
 
     useEffect(()=>{
         setSeed(Math.floor(Math.random()*5000));
@@ -20,7 +31,7 @@ const Chat = () => {
             <div className="chat_header">
                 <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
                 <div className="header_info">
-                    <h3>name</h3>
+                    <h3>{roomName}</h3>
                     <p>Last seen a...</p>
                 </div>
                 <div className="headerRight">
