@@ -5,9 +5,11 @@ import React, { useEffect, useState } from 'react'
 import './sidebar.css'
 import SidebarChat from './SidebarChat'
 import db from '../connection/firebase'
+import { useStateValue } from '../redux/StateProvider'
 
 function Sidebar() {
     const [rooms, setRooms] = useState([]);
+    const [{ user }, dispatch] = useStateValue()
     useEffect(()=>{
         const unsubsribe = db.collection('rooms').onSnapshot(snapshot =>(
             setRooms(
@@ -26,7 +28,7 @@ function Sidebar() {
     return (
         <div className="sidebar">
             <div className="header">
-                <Avatar />
+                <Avatar src={user?.photoURL}/>
                 <div className="rightSide">
                     <IconButton>
                         <DonutLarge />

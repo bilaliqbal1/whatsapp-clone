@@ -7,7 +7,6 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import { useEffect, useState } from 'react';
 import Login from './components/Login';
 import { useStateValue } from './redux/StateProvider';
 
